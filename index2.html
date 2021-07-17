@@ -4,8 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>画板</title>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" />
+  
+   <title>画板</title>
   <style>
     * {
       margin: 0;
@@ -14,19 +17,24 @@
     }
 
     #canvas {
-
-      display: block;
+      vert display: block;
     }
   </style>
 </head>
 
-<body>
+<body ontouchmove="event.preventDefault()">
+  <!-- <body> -->
+    
   <!-- <button class="btn">1</button>
   <button class="btn">2</button>
   <button class="btn">3</button> -->
   <canvas id="canvas" width="100vw" height="100vh">1</canvas>
   <script>
     //划线
+    document.body.addEventListener('touchmove', function(e){
+  e.preventDefault();
+}, { passive: false });
+
     let canvas = document.getElementById('canvas')
     canvas.width = document.documentElement.clientWidth
     canvas.height = document.documentElement.clientHeight
@@ -36,7 +44,7 @@
     var isTouchDevice = 'ontouchstart' in document.documentElement;
     ctx.lineWidth = 10
     ctx.lineCap = 'round'
-let last =[];
+    let last = [];
     function draw(x1, y1, x2, y2) {
       ctx.beginPath();
       ctx.moveTo(x1, y1);
@@ -50,7 +58,10 @@ let last =[];
       canvas.touchstart = (e) => {
         let x = e.touches[0].clientX
         let y = e.touches[0].clientY
+       
+
         last = [x, y]
+        console.log(last)
       }
 
       canvas.ontouchmove = (e) => {
@@ -59,6 +70,8 @@ let last =[];
           let y = e.touches[0].clientY
           draw(last[0], draw[1], x, y)
           last = [x, y]
+          console.log(last)
+
         }
 
       }
