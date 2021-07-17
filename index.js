@@ -1,50 +1,5 @@
-<!DOCTYPE html>
-<html lang="zh-cn">
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" />
-
-  <title>画板</title>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    #canvas {
-      vert display: block;
-    }
-
-    
-    .btn3 {
-      width: 30px;
-      height: 30px;
-      background-color: red;
-    }
-  </style>
-</head>
-
-<body ontouchmove="event.preventDefault()">
-  <!-- <body> -->
-  <div class="btn">
-    <button class="btn1 " id="bt1" onclick="button1()">add</button>
-    <button class="btn2 " id="bt2" onclick="button2()">reduce</button>
-    <button class="btn3 " id="bt3" onclick="button3()"></button>
-    <input type="color" id="nn">
-  </div>
-
-
-  <canvas id="canvas" width="100vw" height="100vh">1</canvas>
-  <script>
     //划线
-
-
     document.body.addEventListener('touchmove', function (e) {
       e.preventDefault();
     }, { passive: false });
@@ -55,12 +10,19 @@
     let ctx = canvas.getContext("2d");
     let painting = false
     ctx.fillStyle = "blue";
-
-
     var isTouchDevice = 'ontouchstart' in document.documentElement;
     ctx.lineWidth = 10
     ctx.lineCap = 'round'
     let btn1 = document.getElementById('btn1')
+    let btn2 = document.getElementById('btn2')
+    btn1.onclick = (e) =>{
+      ctx.lineWidth ++;
+
+    }
+    btn2.onclick = (e) =>{
+      ctx.lineWidth --
+
+    }
     let last = [];
     function draw(x1, y1, x2, y2) {
       ctx.beginPath();
@@ -68,22 +30,9 @@
       ctx.lineTo(x2, y2);
       ctx.stroke();
     }
-    function button1(aa) {
 
-      ctx.lineWidth++;
-    }
-    function button2(bb) {
 
-      ctx.lineWidth--;
-    }
-    function button3(aaa) {
-      // let acd = document.getElementById('nn').value;
-      // console.log(acd);
 
-      ctx.strokeStyle = " acd ";
-      // ctx.strokeStyle = "#cf3030"
-      console.log(document.getElementById("nn").value);
-    }
     if (isTouchDevice) {
       canvas.touchstart = (e) => {
         let x = e.touches[0].clientX
@@ -91,6 +40,7 @@
 
 
         last = [x, y]
+        console.log(last)
       }
 
       canvas.ontouchmove = (e) => {
@@ -99,6 +49,7 @@
           let y = e.touches[0].clientY
           draw(last[0], last[1], x, y)
           last = [x, y]
+          console.log(last)
 
         }
 
@@ -115,6 +66,7 @@
           // ctx.fillRect(e.clientX, e.clientY, 5, 5);
           draw(last[0], last[1], e.clientX, e.clientY)
           last = [e.clientX, e.clientY]
+          console.log(last)
         } else {
           console.log('')
         }
@@ -123,8 +75,3 @@
         painting = false
       }
     }
-
-  </script>
-</body>
-
-</html>
