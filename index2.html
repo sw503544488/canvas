@@ -36,6 +36,7 @@
     <button class="btn1 " id="bt1" onclick="button1()">add</button>
     <button class="btn2 " id="bt2" onclick="button2()">reduce</button>
     <button class="btn3 " id="bt3" onclick="button3()"></button>
+    <button class="btn3 " id="bt3" onclick="button4()">4</button>
     <input type="color" id="nn">
   </div>
 
@@ -85,6 +86,11 @@
     
       console.log(document.getElementById("nn").value);
       console.log(ctx.strokeStyle);
+    }
+    function button4(ccc) {
+      
+      ctx.strokeStyle ='red ';
+
     }
     if (isTouchDevice) {
       canvas.touchstart = (e) => {
