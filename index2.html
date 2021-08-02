@@ -18,25 +18,27 @@
     }
 
     #canvas {
-      vert display: block;
+      display: block;
     }
 
-    
-    .btn3 {
-      width: 30px;
+    .button {
+      display: inline;
+    }
+
+    .btn {
+      width: 50px;
       height: 30px;
-      background-color: red;
     }
   </style>
 </head>
 
 <body ontouchmove="event.preventDefault()">
   <!-- <body> -->
-  <div class="btn">
-    <button class="btn1 " id="bt1" onclick="button1()">add</button>
-    <button class="btn2 " id="bt2" onclick="button2()">reduce</button>
-    <button class="btn3 " id="bt3" onclick="button3()"></button>
-    <button class="btn3 " id="bt3" onclick="button4()">4</button>
+  <div class="button">
+    <button class="btn1 btn " id="bt1" onclick="button1()">add</button>
+    <button class="btn2  btn" id="bt2" onclick="button2()">reduce</button>
+    <button class="btn3  btn" id="bt3" onclick="button3()">选色</button>
+    <!-- <button class="btn3 " id="bt4" onclick="button4()">4</button> -->
     <input type="color" id="nn">
   </div>
 
@@ -77,28 +79,21 @@
 
       ctx.lineWidth--;
     }
+    let pencolor = document.getElementById("nn").value
+
     function button3(aaa) {
-      // let acd = document.getElementById('nn').value;
-      // console.log(acd);
-      
-      ctx.strokeStyle =' document.getElementById("nn").value ';
-    // ctx.strokeStyle = "#cf3030"
-    
-      console.log(document.getElementById("nn").value);
-      console.log(ctx.strokeStyle);
+      pencolor = document.getElementById("nn").value
+      ctx.strokeStyle = ` ${pencolor} `;
     }
     function button4(ccc) {
-      
-      ctx.strokeStyle ='red ';
-
+      ctx.strokeStyle = `${pencolor} `;
     }
     if (isTouchDevice) {
       canvas.touchstart = (e) => {
-        let x = e.touches[0].clientX
-        let y = e.touches[0].clientY
+        // let x = e.touches[0].clientX
+        // let y = e.touches[0].clientY
 
-
-        last = [x, y]
+        // last = [x, y]
       }
 
       canvas.ontouchmove = (e) => {
@@ -109,6 +104,9 @@
           last = [x, y]
 
         }
+
+      }
+      canvas.touchend = (e) => {
 
       }
     } else {
@@ -124,7 +122,6 @@
           draw(last[0], last[1], e.clientX, e.clientY)
           last = [e.clientX, e.clientY]
         } else {
-          console.log('')
         }
       }
       canvas.onmouseup = () => {
