@@ -15,6 +15,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      margin-top: 2px;
     }
 
     #canvas {
@@ -23,6 +24,7 @@
 
     .button {
       display: inline;
+      margin-left: 5px;
     }
 
     .btn {
@@ -35,8 +37,9 @@
 <body ontouchmove="event.preventDefault()">
   <!-- <body> -->
   <div class="button">
-    <button class="btn1 btn " id="bt1" onclick="button1()">add</button>
-    <button class="btn2  btn" id="bt2" onclick="button2()">reduce</button>
+    <button class="btn1 btn " id="bt1" onclick="button1()">变粗</button>
+    <button class="btn2  btn" id="bt2" onclick="button2()">变细</button>
+    <button class="btn4  btn" id="bt4" onclick="button4()">橡皮擦</button>
     <button class="btn3  btn" id="bt3" onclick="button3()">选色</button>
     <!-- <button class="btn3 " id="bt4" onclick="button4()">4</button> -->
     <input type="color" id="nn">
@@ -58,9 +61,10 @@
     let ctx = canvas.getContext("2d");
     let painting = false
     ctx.fillStyle = "blue";
+    let eraser=true
 
 
-    var isTouchDevice = 'ontouchstart' in document.documentElement;
+    let isTouchDevice = 'ontouchstart' in document.documentElement;
     ctx.lineWidth = 10
     ctx.lineCap = 'round'
     let btn1 = document.getElementById('btn1')
@@ -71,47 +75,72 @@
       ctx.lineTo(x2, y2);
       ctx.stroke();
     }
+    let linewidth = ctx.lineWidth;
     function button1(aa) {
-
+      linewidth++;
       ctx.lineWidth++;
+      button3()
     }
     function button2(bb) {
-
+      linewidth--;
       ctx.lineWidth--;
+      button3()
     }
     let pencolor = document.getElementById("nn").value
 
     function button3(aaa) {
+      ctx.lineWidth = linewidth
       pencolor = document.getElementById("nn").value
       ctx.strokeStyle = ` ${pencolor} `;
+
     }
     function button4(ccc) {
-      ctx.strokeStyle = `${pencolor} `;
+    if (eraser){
+      let btn4 = document.getElementById('bt4')
+      btn4.style.background='#7f6d6d'
+       ctx.strokeStyle = `white `;
+       linewidth = ctx.lineWidth
+       ctx.lineWidth = 33
+      eraser=!eraser
+      }else {
+      button3()
+      let btn4 = document.getElementById('bt4')
+      btn4.style.background=`#efefef`
+      btn4.style.border='1px solid black'
+      eraser=!eraser
+    }
+
     }
     if (isTouchDevice) {
-      canvas.touchstart = (e) => {
-        // let x = e.touches[0].clientX
-        // let y = e.touches[0].clientY
+      canvas.ontouchstart = (e) => {
 
-        // last = [x, y]
+        let x = e.changedTouches[0].clientX
+        let y = e.changedTouches[0].clientY
+
+        last = [x, y]
       }
 
       canvas.ontouchmove = (e) => {
+
         canvas.ontouchmove = (e) => {
+          console.log('hi');
+
           let x = e.touches[0].clientX
           let y = e.touches[0].clientY
           draw(last[0], last[1], x, y)
           last = [x, y]
-
         }
 
       }
-      canvas.touchend = (e) => {
+      canvas.ontouchend = (e) => {
+
 
       }
     } else {
 
       canvas.onmousedown = (e) => {
+        console.log('hi');
+
         painting = true
         last = [e.clientX, e.clientY]
       }
@@ -125,6 +154,8 @@
         }
       }
       canvas.onmouseup = () => {
+        console.log('hi');
+
         painting = false
       }
     }
